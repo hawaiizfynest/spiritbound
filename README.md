@@ -11,10 +11,6 @@
 
 *Bond with the spirits of Aetheria.*
 
-> **Note on badges:** the build-status, release, and downloads badges read live
-> data from GitHub. They render once the repository is public; while it is
-> private they may show "not found" until then.
-
 Spiritbound: Legends of Aetheria is a self-contained RPG that pulls three things into one game: the top-down, walk-anywhere overworld of Zelda, the catch-train-evolve loop of Pokemon, and the turn-based, MP-driven battles of Final Fantasy. You explore Aetheria, a fading world, one tile at a time, find wild Aethers in tall grass, weaken and bond them with Bond Crystals, build a party, and push north to face Nullith, the hollow guardian of a corrupted spring.
 
 The whole game draws its art procedurally at runtime. There are no sprite sheets, image files, or sound files to ship. The Python source is the game. Scenes render to a low-resolution buffer and scale up for a chunky, GBA-style pixel look, while the interface stays crisp on top.

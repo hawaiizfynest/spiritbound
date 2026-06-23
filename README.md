@@ -1,5 +1,6 @@
 # Spiritbound: Legends of Aetheria
 
+[![CI](https://github.com/HawaiizFynest/spiritbound/actions/workflows/ci.yml/badge.svg)](https://github.com/HawaiizFynest/spiritbound/actions/workflows/ci.yml)
 [![Build and Release](https://github.com/HawaiizFynest/spiritbound/actions/workflows/release.yml/badge.svg)](https://github.com/HawaiizFynest/spiritbound/actions/workflows/release.yml)
 [![Latest release](https://img.shields.io/github/v/release/HawaiizFynest/spiritbound?display_name=tag&sort=semver)](https://github.com/HawaiizFynest/spiritbound/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/HawaiizFynest/spiritbound/total)](https://github.com/HawaiizFynest/spiritbound/releases)

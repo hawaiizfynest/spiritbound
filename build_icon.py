@@ -39,7 +39,8 @@ SIZES = (16, 24, 32, 48, 64, 128, 256)
 
 
 def _render(size):
-    """Draw the faceted crystal at a given square size; returns a Surface."""
+    """Draw the Spiritbound emblem - a glowing spirit wisp with a bonded heart -
+    at a given square size; returns a Surface."""
     s = pygame.Surface((size, size), pygame.SRCALPHA)
 
     # rounded-square backdrop with a vertical gradient
@@ -56,49 +57,54 @@ def _render(size):
     s.blit(mask, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
     cx = size / 2
-    w = size * 0.40           # half-width of the crystal
-    top = size * 0.14
-    shoulder = size * 0.40    # where the body widens out
-    bottom = size * 0.90
-
-    left = cx - w
-    right = cx + w
-    # crystal silhouette: a tall hexagon-ish gem
-    body = [
-        (cx, top),
-        (right, shoulder),
-        (right, size * 0.62),
-        (cx, bottom),
-        (left, size * 0.62),
-        (left, shoulder),
-    ]
+    by = size * 0.60          # centre of the wisp's round base
+    br = size * 0.27          # base radius
+    tipy = size * 0.11        # flame tip
+    w = br * 0.98
 
     def scl(pts):
         return [(int(round(x)), int(round(y))) for x, y in pts]
 
-    # base fill
-    pygame.draw.polygon(s, CYAN, scl(body))
-    # left facet (lighter), right facet (darker) for a faceted gem read
-    left_facet = [(cx, top), (left, shoulder), (left, size * 0.62),
-                  (cx, bottom), (cx, size * 0.50)]
-    right_facet = [(cx, top), (right, shoulder), (right, size * 0.62),
-                   (cx, bottom), (cx, size * 0.50)]
-    pygame.draw.polygon(s, CYAN_HI, scl(left_facet))
-    pygame.draw.polygon(s, CYAN_LO, scl(right_facet))
-    # central highlight ridge
-    pygame.draw.polygon(s, CYAN, scl([(cx, top), (cx + w * 0.18, shoulder),
-                                      (cx, size * 0.50),
-                                      (cx - w * 0.18, shoulder)]))
+    def flame(col, grow=0.0, tip=tipy):
+        """A teardrop: round base + tapering point, drawn as a circle plus a
+        triangle in one colour so they merge into a flame."""
+        pygame.draw.circle(s, col, (int(round(cx)), int(round(by))), int(round(br + grow)))
+        pts = [(cx - (w + grow), by),
+               (cx - (w + grow) * 0.45, size * 0.42),
+               (cx, tip),
+               (cx + (w + grow) * 0.45, size * 0.42),
+               (cx + (w + grow), by)]
+        pygame.draw.polygon(s, col, scl(pts))
 
-    if size >= 24:
-        ow = max(1, size // 32)
-        pygame.draw.polygon(s, OUTLINE, scl(body), ow)
-        # a small gold spark at the top, the "bond" glint
-        gx, gy = int(cx), int(top + size * 0.02)
-        gr = max(1, size // 22)
-        pygame.draw.circle(s, GOLD, (gx, gy), gr)
-        if size >= 48:
-            pygame.draw.circle(s, (255, 245, 210), (gx, gy), max(1, gr // 2))
+    # soft aura behind the wisp (layered translucent halos)
+    aura = pygame.Surface((size, size), pygame.SRCALPHA)
+    for rr, aa in ((0.48, 38), (0.38, 58), (0.30, 86)):
+        pygame.draw.circle(aura, (CYAN[0], CYAN[1], CYAN[2], aa),
+                           (int(cx), int(size * 0.56)), max(1, int(size * rr)))
+    s.blit(aura, (0, 0))
+
+    # darker rim, then the body, then a hotter inner core flame
+    flame(CYAN_LO, grow=max(1.0, size * 0.035))
+    flame(CYAN, grow=0.0)
+    # inner core (smaller, brighter)
+    cby, cbr, cw = size * 0.62, br * 0.56, br * 0.52
+    pygame.draw.circle(s, CYAN_HI, (int(round(cx)), int(round(cby))), int(round(cbr)))
+    pygame.draw.polygon(s, CYAN_HI, scl([(cx - cw, cby), (cx - cw * 0.45, size * 0.50),
+                                         (cx, size * 0.27),
+                                         (cx + cw * 0.45, size * 0.50), (cx + cw, cby)]))
+
+    # the bonded heart: a warm gold soul-spark at the centre
+    hx, hy = int(round(cx)), int(round(size * 0.585))
+    hr = max(1, int(round(size * 0.075)))
+    pygame.draw.circle(s, GOLD, (hx, hy), hr)
+    if size >= 32:
+        pygame.draw.circle(s, (255, 250, 236), (hx, hy - max(1, hr // 3)), max(1, hr // 2))
+
+    # orbiting spirit motes once there's room for them to read
+    if size >= 40:
+        for mx, my, mr in ((-0.33, 0.30, 0.050), (0.35, 0.44, 0.045), (0.31, 0.20, 0.034)):
+            pygame.draw.circle(s, GOLD, (int(round(cx + mx * size)), int(round(by + my * size * 0.6))),
+                               max(1, int(round(size * mr))))
 
     return s
 

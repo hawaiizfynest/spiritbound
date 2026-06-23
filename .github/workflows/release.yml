@@ -58,12 +58,11 @@ jobs:
         run: python build_icon.py
 
       - name: Build the executable
-        run: >
-          python -m PyInstaller --onefile --noconsole
-          --name Spiritbound
-          --icon spiritbound.ico
-          --collect-submodules game
-          main.py
+        # Build from the spec, NOT a bare command: the spec bundles assets/
+        # (music + sound effects + sprite art) into the EXE via `datas`, plus
+        # the game submodules and the icon. A bare PyInstaller command without
+        # --add-data ships a silent EXE with no audio.
+        run: pyinstaller Spiritbound.spec
 
       - name: Determine version label
         id: version

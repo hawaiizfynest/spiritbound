@@ -1,0 +1,40 @@
+# Byte-compiled / optimized / cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PyInstaller build artifacts
+build/
+dist/
+*.spec
+!Spiritbound.spec
+
+# Application icon - rendered at build time by build_icon.py, never committed
+*.ico
+
+# Local runtime data (personal, not part of the project)
+*_save.json
+audio_status.txt
+
+# Working / handoff docs - kept local; README is the only doc published in the repo
+*.md
+!README.md
+
+# Claude Code local settings
+.claude/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Test / tooling caches
+.pytest_cache/
+.mypy_cache/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/

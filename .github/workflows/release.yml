@@ -62,7 +62,7 @@ jobs:
         # (music + sound effects + sprite art) into the EXE via `datas`, plus
         # the game submodules and the icon. A bare PyInstaller command without
         # --add-data ships a silent EXE with no audio.
-        run: pyinstaller Spiritbound.spec
+        run: python -m PyInstaller --onefile --noconsole --name Spiritbound --collect-submodules game --add-data "assets;assets" main.py
 
       - name: Determine version label
         id: version

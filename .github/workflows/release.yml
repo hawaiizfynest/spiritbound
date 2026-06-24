@@ -54,9 +54,6 @@ jobs:
           SDL_AUDIODRIVER: dummy
         run: python tests/test_logic.py
 
-      - name: Generate the application icon
-        run: python -m PyInstaller --onefile --noconsole --name Spiritbound --icon spiritbound.ico --collect-submodules game --add-data "assets;assets" main.py
-
       - name: Build the executable
         # Build from the spec, NOT a bare command: the spec bundles assets/
         # (music + sound effects + sprite art) into the EXE via `datas`, plus
